@@ -1,0 +1,15 @@
+fastapi==0.110.0
+uvicorn[standard]==0.30.0
+pydantic==2.6.4
+# AI/NLP libraries (placeholders)
+transformers==4.40.0
+tensorflow==2.16.1
+# Kafka client
+confluent-kafka==2.4.0
+# PostgreSQL driver
+psycopg2-binary==2.9.9
+# Spark (pyspark) - placeholder, heavy; in production use separate image
+pyspark==3.5.1
+# OAuth2 support
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
