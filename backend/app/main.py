@@ -1,7 +1,17 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
+# Local imports for core components
+from .trend_engine import TrendEngine
+from .nlp_core import ContentGen
+from .dispatcher import SocialDispatcher
+
 app = FastAPI(title="RemixHub API")
+
+# Instantiate core services (could be dependency‑injected in a larger app)
+trend_engine = TrendEngine()
+content_gen = ContentGen()
+social_dispatcher = SocialDispatcher()
 
 class TrendRequest(BaseModel):
     query: str
@@ -18,20 +28,18 @@ class DispatchRequest(BaseModel):
 
 @app.post("/trends")
 async def get_trends(request: TrendRequest):
-    # TODO: integrate Behavior‑Verified Trend Engine
-    return {"trends": [f"Sample trend for {request.query}"]}
+    # Integrate Behavior‑Verified Trend Engine
+    trends = trend_engine.get_trends(request.query)
+    return {"trends": trends}
 
 @app.post("/generate")
 async def generate_content(request: GenerationRequest):
-    # TODO: call Content‑Gen NLP Core
-    sample_content = {
-        "copy": f"Exciting copy for trend {request.trend}",
-        "hashtags": ["#example", "#remix"],
-        "visual_prompt": "Generate an image of ..."
-    }
-    return sample_content
+    # Call Content‑Gen NLP Core
+    generated = content_gen.generate(request.trend)
+    return generated
 
 @app.post("/dispatch")
 async def dispatch_content(request: DispatchRequest):
-    # TODO: integrate Social‑Connect Dispatcher
-    return {"status": "queued", "content_id": request.content_id, "platform": request.platform}
+    # Integrate Social‑Connect Dispatcher
+    result = social_dispatcher.dispatch(request.content_id, request.platform)
+    return result
