@@ -19,7 +19,14 @@
 docker compose up --build -d
 
 # Test API (example)
+# Get trends
 curl -X POST http://localhost:8000/trends -H "Content-Type: application/json" -d '{"query": "sustainability"}'
+# Generate content for a trend
+curl -X POST http://localhost:8000/generate -H "Content-Type: application/json" -d '{"trend": "Sustainability Trend 1"}'
+# Dispatch generated content (use returned content_id placeholder)
+curl -X POST http://localhost:8000/dispatch -H "Content-Type: application/json" -d '{"content_id": "example-id", "platform": "instagram"}'
+# View dispatch logs
+curl http://localhost:8000/dispatch/logs
 ```
 
 Further implementation details (trend engine, NLP core, dispatcher) are TODOs in the code.

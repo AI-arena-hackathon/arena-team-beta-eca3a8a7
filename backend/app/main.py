@@ -43,3 +43,8 @@ async def dispatch_content(request: DispatchRequest):
     # Integrate Social‑Connect Dispatcher
     result = social_dispatcher.dispatch(request.content_id, request.platform)
     return result
+
+@app.get("/dispatch/logs")
+def get_dispatch_logs():
+    """Return in‑memory dispatch logs for debugging/monitoring."""
+    return {"logs": social_dispatcher.get_logs()}
